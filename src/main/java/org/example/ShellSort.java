@@ -5,23 +5,24 @@ import parcs.AMInfo;
 
 public class ShellSort implements AM {
     public void run(AMInfo info) {
-        System.out.println("Reading from channel...");
+        System.out.println("ShellSort: Reading from channel...");
         int[] array = (int[]) info.parent.readObject();
 
-        System.out.println("Unsorted subarray (first 20 elements): ");
+        System.out.println("ShellSort: Unsorted subarray (first 20 elements): ");
         printArray(array, 20);
 
         long startTime = System.currentTimeMillis();
         shellSort(array);
         long endTime = System.currentTimeMillis();
 
-        System.out.println("Sorted subarray (first 20 elements): ");
+        System.out.println("ShellSort: Sorted subarray (first 20 elements): ");
         printArray(array, 20);
 
-        System.out.println("Subarray length: " + array.length);
-        System.out.println("Sorting took " + (endTime - startTime) + " milliseconds.");
+        System.out.println("ShellSort: Subarray length: " + array.length);
+        System.out.println("ShellSort: Sorting took " + (endTime - startTime) + " milliseconds.");
 
         info.parent.write(array);
+        System.out.println("ShellSort: Results written to channel.");
     }
 
     public static void shellSort(int[] array) {

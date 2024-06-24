@@ -83,16 +83,11 @@ public class ParcsJob {
             point.execute(ShellSort.class.getCanonicalName());
 
             System.out.println("writing to channel");
-            channel.write(rangeStart);
-            channel.write(rangeEnd);
+            channel.write(Arrays.copyOfRange(array, rangeStart, rangeEnd));
         }
 
         System.out.println("waiting for results");
         List<int[]> sortedSubarrays = new ArrayList<>();
-        System.out.println("channels: ");
-        channels.forEach(System.out::println);
-
-        channels.forEach(ch -> System.out.println(ch.readObject()));
         for (channel ch : channels) {
             sortedSubarrays.add((int[]) ch.readObject());
         }
