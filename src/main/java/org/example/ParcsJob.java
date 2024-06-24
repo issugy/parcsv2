@@ -21,14 +21,13 @@ public class ParcsJob {
             String serverIP = Files.readString(Paths.get(serverFilePath)).trim();
             System.out.println("Server IP read from file: " + serverIP);
 
-            // Створення завдання
             System.out.println("Creating task...");
             task curtask = new task();
             curtask.addJarFile("ShellSort.jar");
             AMInfo info = new AMInfo(curtask, null);
 
             int[] array = generateRandomArray(100000);
-            int numberOfWorkers = 2;  // Задайте кількість воркерів
+            int numberOfWorkers = 2;
 
             long startTime = System.currentTimeMillis();
             int[] sortedArray = parallelShellSort(info, array, numberOfWorkers);
@@ -71,7 +70,7 @@ public class ParcsJob {
             int rangeEnd = (index + 1) * batchSize;
 
             if (index == numberOfWorkers - 1) {
-                rangeEnd = n; // Останній воркер обробляє залишок масиву
+                rangeEnd = n;
             }
 
             System.out.println("creating point for range [" + rangeStart + ", " + rangeEnd + "]");
@@ -90,6 +89,7 @@ public class ParcsJob {
 
         System.out.println("waiting for results");
         List<int[]> sortedSubarrays = new ArrayList<>();
+        channels.forEach(ch -> System.out.println(ch.readObject()));
         for (channel ch : channels) {
             sortedSubarrays.add((int[]) ch.readObject());
         }
@@ -98,7 +98,6 @@ public class ParcsJob {
     }
 
     private static int[] mergeSortedArrays(List<int[]> sortedSubarrays) {
-        // Реалізуйте метод злиття підмасивів
         return sortedSubarrays.stream().flatMapToInt(Arrays::stream).toArray();
     }
 
