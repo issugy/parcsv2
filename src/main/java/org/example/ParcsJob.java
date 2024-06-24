@@ -4,7 +4,6 @@ import parcs.AMInfo;
 import parcs.channel;
 import parcs.point;
 import parcs.task;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -69,10 +68,6 @@ public class ParcsJob {
             int rangeStart = index * batchSize;
             int rangeEnd = (index + 1) * batchSize;
 
-            if (index == numberOfWorkers - 1) {
-                rangeEnd = n;
-            }
-
             System.out.println("creating point for range [" + rangeStart + ", " + rangeEnd + "]");
             point point = info.createPoint();
             System.out.println("creating channel");
@@ -83,7 +78,8 @@ public class ParcsJob {
             point.execute(ShellSort.class.getCanonicalName());
 
             System.out.println("writing to channel");
-            channel.write(Arrays.copyOfRange(array, rangeStart, rangeEnd));
+            channel.write(rangeStart);
+            channel.write(rangeEnd);
         }
 
         System.out.println("waiting for results");
